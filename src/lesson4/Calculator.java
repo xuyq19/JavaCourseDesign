@@ -1,45 +1,45 @@
 package lesson4;
-class NonZeroException extends Exception {
-
-}
+import java.util.Scanner;
 public class Calculator {
     public static void main(String[] args){
+        int a = Integer.parseInt(args[0]);
+        char op = args[1].charAt(0);
+        int b = Integer.parseInt(args[2]);
+        int result = 0;
         try{
-            int a = Integer.parseInt(args[0]);
-            char op = args[1].charAt(0);
-            int b = Integer.parseInt(args[2]);
-            int result = 0;
             switch (op){
                 case '+':
                     result = a + b;
-                    System.out.println("a + b = " + result);
                     break;
                 case '-':
                     result = a - b;
-                    System.out.println("a - b = " + result);
                     break;
                 case '*':
-                    result = a * b;
-                    System.out.println("a * b = " + result);
+                    result = a * b;//在命令行输入乘号的时候，要加上双引号，否则会认为是通配符
                     break;
                 case '/':
-                    try{
-                        result = a / b;
-                    }catch (ArithmeticException e){
-
+                    if(b==0) {
+                        throw new ArithmeticException("Division by zero");
                     }
-                    System.out.println("a / b = " + result);
+                    result = a / b;
                     break;
                 default:
+                    System.out.println("Error operator");
             }
         }catch (ArrayIndexOutOfBoundsException e){
             System.out.println("ArrayIndexOutOfBoundsException");
         }catch (NumberFormatException e){
             System.out.println("NumberFormatException");
         }catch(ArithmeticException e){
-            System.out.println("ArithmeticException");
+            System.out.println("Cannot divide by zero");
+            System.out.println("Please enter a non-zero number");
+            Scanner scanner = new Scanner(System.in);
+            b = scanner.nextInt();
+            result = a / b;
+
         }
         finally {
+            System.out.println("The result is " + result);
             System.out.println("Finally");
         }
     }
