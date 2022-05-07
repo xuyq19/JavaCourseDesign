@@ -21,14 +21,27 @@ class ShopWorker implements Runnable {
                     }
                     zhangSan.sleep(10000);
                 } catch (InterruptedException e) {
-                    System.out.println(boss.getName()+"让"+Thread.currentThread().getName()+"继续工作");
+                    System.out.println(boss.getName() + "让" + Thread.currentThread().getName() + "继续工作");
                 }
             }
-        }else if(Thread.currentThread() == boss){
+        } else if (Thread.currentThread() == liSi) {
+            while (true) {
+                try {
+                    i++;
+                    System.out.println(Thread.currentThread().getName() + "已搬了" + i + "箱货物，休息一会儿");
+                    if (i == 3) {
+                        return;
+                    }
+                    liSi.sleep(10000);
+                } catch (InterruptedException e) {
+                    System.out.println(boss.getName() + "让" + Thread.currentThread().getName() + "继续工作");
+                }
+            }
+        } else if (Thread.currentThread() == boss) {
             while (true) {
                 zhangSan.start();
                 liSi.start();
-                if(!(zhangSan.isAlive() || liSi.isAlive())){
+                if (!(zhangSan.isAlive() || liSi.isAlive())) {
                     System.out.println("下班了！");
                     return;
                 }
@@ -38,7 +51,7 @@ class ShopWorker implements Runnable {
 }
 
 public class ShopWork {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ShopWorker shop = new ShopWorker();
         shop.liSi.start();
         shop.boss.start();
