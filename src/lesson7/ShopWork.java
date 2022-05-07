@@ -39,8 +39,9 @@ class ShopWorker implements Runnable {
             }
         } else if (Thread.currentThread() == boss) {
             while (true) {
-                zhangSan.start();
-                liSi.start();
+                //wake zhangsan and lisi
+                zhangSan.interrupt();
+                liSi.interrupt();
                 if (!(zhangSan.isAlive() || liSi.isAlive())) {
                     System.out.println("下班了！");
                     return;
@@ -53,6 +54,7 @@ class ShopWorker implements Runnable {
 public class ShopWork {
     public static void main(String[] args) {
         ShopWorker shop = new ShopWorker();
+        shop.zhangSan.start();
         shop.liSi.start();
         shop.boss.start();
     }
